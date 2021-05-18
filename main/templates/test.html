@@ -1,0 +1,54 @@
+<!-- <html>
+   <head>
+      <meta charset="utf-8" />
+      <script type="text/javascript"　src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+      <script type="text/javascript">
+         //$(function(){
+            var i = $('.hello').text();
+            alert(i);
+         //});
+      </script>
+   </head>
+   <body>
+      <p> Hello World </p>
+      <p class="hello">hello</p>
+   </body>                                  
+
+</html> -->
+<html>
+   <head>
+      <meta charset="utf-8" />
+      <script type="text/javascript"　src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+      <!-- <script type="text/javascript" src="{{ url_for('static', filename='js/test.js')}}"></script> -->
+   </head>
+   <body>
+      <p id="hello">{{content_data.date_list}}</p>
+      <p class="test" value="ABC"></p>
+      
+      <script type=text/javascript>
+         $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+         var p1 = document.getElementById('hello').innerText;
+          //document.write(p1);
+          //var jsvar = {{ content_data|tojson }};
+          //document.write( jsvar );
+          //$SCRIPT_ROOT = {{ request.script_root|tojson }};
+          //document.write(typeof {{ content_data.date_list}} );
+          //var receive_data = JSON.parse({{content_data}});
+          //document.write(receive_data);
+          //var p2 = document.getElementsByClassName('test')[0];
+          //document.write(p2.value);
+          var h11 = {{content_data.count_list.count|tojson }};
+          //document.write({{content_data.count_list.count|tojson}});
+         //alert(h11);
+         var data = [1,2,3,4,5];
+         var data3 = {{content_data.behavior_list.behavior|tojson}};
+         var data1 = h11.slice(0,1);
+         var data2 = h11.slice(1,2);
+
+         document.write(data1);
+         document.write(data2);
+         document.write(data3);     
+      
+         </script>
+      </body>
+</html>

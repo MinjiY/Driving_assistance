@@ -1,0 +1,326 @@
+{% extends "base.html" %}
+{% block content %}
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">Welcome! 사용자 님</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">운전주행정보 시스템 입니다.
+                    </li>
+                </ol>
+                <div class="row">
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-primary text-white mb-4">
+                            <div class="card-body">날짜별 주행정보</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="/drivinfo">View Details</a>
+                                <div class="small text-white">
+                                    <i class="fas fa-angle-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-warning text-white mb-4">
+                            <div class="card-body">나의 운전 점수</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="/drivscore">View Details</a>
+                                <div class="small text-white">
+                                    <i class="fas fa-angle-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-success text-white mb-4">
+                            <div class="card-body">나의 주행 영상</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="/video">View Details</a>
+                                <div class="small text-white">
+                                    <i class="fas fa-angle-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card bg-danger text-white mb-4">
+                            <div class="card-body">프로필</div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="/profile">View Details</a>
+                                <div class="small text-white">
+                                    <i class="fas fa-angle-right"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-chart-bar mr-1"></i>
+                                날짜별 총 주행시간
+                            </div>
+                            <div class="card-body">
+                                <canvas id="myBarChart" width="100%" height="40"></canvas>
+                            </div>
+                            <script
+                                src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+                            <script type="text/javascript">
+                                // Set new default font family and font color to mimic Bootstrap's default
+                                // styling
+                                var labels = {{ content_data.date_list.date|tojson }};
+                                var data = parseTime({{ content_data.time_list.time|tojson }});
+
+                                function parseTime(times) {
+                                    let parsedTime = []
+                                    for (let x = 0; x < times.length; x++) {
+                                        let words = times[x].split(':')
+                                        parsedTime.push(
+                                            parseInt(words[0] * 3600) + parseInt(words[1]) * 60 + parseInt(words[2])
+                                        )
+                                    }
+                                    return parsedTime
+                                }
+
+                                Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",' +
+                                        'Arial,sans-serif';
+                                Chart.defaults.global.defaultFontColor = '#292b2c';
+
+                                // Bar Chart Example
+                                var ctx = document.getElementById("myBarChart");
+                                var myLineChart = new Chart(ctx, {
+                                    type: 'bar',
+                                    data: {
+                                        labels: labels,
+                                        datasets: [
+                                            {
+                                                label: "Revenue",
+                                                backgroundColor: "rgba(2,117,216,1)",
+                                                borderColor: "rgba(2,117,216,1)",
+                                                data: data
+                                            }
+                                        ]
+                                    },
+                                    options: {
+                                        tooltips: {
+                                            enabled: false
+                                        },
+                                        hover: {
+                                            animationDuration: 0
+                                        },
+                                        animation: {
+                                            duration: 1,
+                                            onComplete: function () {
+                                                var chartInstance = this.chart,
+                                                    ctx = chartInstance.ctx;
+                                                ctx.font = Chart
+                                                    .helpers
+                                                    .fontString(
+                                                        Chart.defaults.global.defaultFontSize,
+                                                        Chart.defaults.global.defaultFontStyle,
+                                                        Chart.defaults.global.defaultFontFamily
+                                                    );
+                                                ctx.fillStyle = '#292b2c';
+                                                ctx.textAlign = 'center';
+                                                ctx.textBaseline = 'bottom';
+
+                                                this
+                                                    .data
+                                                    .datasets
+                                                    .forEach(function (dataset, i) {
+                                                        var meta = chartInstance
+                                                            .controller
+                                                            .getDatasetMeta(i);
+                                                        meta
+                                                            .data
+                                                            .forEach(function (bar, index) {
+                                                                var data = dataset.data[index];
+                                                                value = Math.floor(data / 3600) + "시간 " + Math.floor((data % 3600) / 60) +
+                                                                        "분 " + (
+                                                                    (data % 3600) % 60
+                                                                ) % 60 + "초"
+                                                                ctx.fillText(value, bar._model.x, bar._model.y - 5);
+                                                            });
+                                                    });
+                                            }
+                                        },
+                                        scales: {
+                                            xAxes: [
+                                                {
+                                                    time: {
+                                                        unit: 'date'
+                                                    },
+                                                    gridLines: {
+                                                        display: false
+                                                    },
+                                                    ticks: {
+                                                        //    maxTicksLimit: 6
+                                                        precision: 0
+                                                    }
+                                                }
+                                            ],
+                                            yAxes: [
+                                                {
+                                                    ticks: {
+                                                        //    min: 0,    max: 15000,    maxTicksLimit: 5
+                                                        precision: 0,
+                                                        callback: function (value, index, values) {
+
+                                                            return Math.floor(value / 3600) + ":" + Math.floor((value % 3600) / 60) + ":" + (
+                                                                (value % 3600) % 60
+                                                            ) % 60
+                                                        }
+
+                                                    },
+                                                    gridLines: {
+                                                        display: true
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        legend: {
+                                            display: false
+                                        }
+                                    }
+                                });
+                            </script>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-chart-area mr-1"></i>
+                                총 이상행동 횟수
+                            </div>
+                            <div class="card-body">
+                                <canvas id="myAreaChart" width="100%" height="40"></canvas>
+                            </div>
+                            <script
+                                src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+                            <script type="text/javascript">
+                                // Set new default font family and font color to mimic Bootstrap's default
+                                // styling
+                                var labels = {{ content_data.behavior_naming.driving|tojson }};
+                                var data = {{ content_data.behavior_list.behavior|tojson }};
+                               
+                                
+                                Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",' +
+                                        'Arial,sans-serif';
+                                Chart.defaults.global.defaultFontColor = '#292b2c';
+
+                                // Area Chart Example
+                                var ctx = document.getElementById("myAreaChart");
+                                var myLineChart = new Chart(ctx, {
+                                    type: 'line',
+                                    data: {
+                                        labels: labels,
+                                        datasets: [
+                                            {
+                                                label: "횟수",
+                                                lineTension: 0.3,
+                                                backgroundColor: "rgba(2,117,216,0.2)",
+                                                borderColor: "rgba(2,117,216,1)",
+                                                pointRadius: 5,
+                                                pointBackgroundColor: "rgba(2,117,216,1)",
+                                                pointBorderColor: "rgba(255,255,255,0.8)",
+                                                pointHoverRadius: 5,
+                                                pointHoverBackgroundColor: "rgba(2,117,216,1)",
+                                                pointHitRadius: 50,
+                                                pointBorderWidth: 2,
+                                                data: data
+                                            }
+                                        ]
+                                    },
+                                    options: {
+                                        scales: {
+                                            xAxes: [
+                                                {
+                                                    time: {
+                                                        unit: 'date'
+                                                    },
+                                                    gridLines: {
+                                                        display: false
+                                                    },
+                                                    ticks: {
+                                                        maxTicksLimit: 7
+                                                    }
+                                                }
+                                            ],
+                                            yAxes: [
+                                                {
+                                                    ticks: {
+                                                        //min: 0,
+                                                        //max: 40000,
+                                                        //maxTicksLimit: 5
+                                                        precision: 0
+                                                    },
+                                                    gridLines: {
+                                                        color: "rgba(0, 0, 0, .125)"
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        legend: {
+                                            display: false
+                                        }
+                                    }
+                                });
+                            </script>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-table mr-1"></i>
+                        주행 정보
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>날짜</th>
+                                        <th>총 주행 시간</th>
+                                        <th>총 정상 주행 횟수</th>
+                                        <th>총 졸음 운전 횟수</th>
+                                        <th>총 인포테인먼트 본 횟수</th>
+                                        <th>총 휴대폰 본 횟수</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for _d in range(0, content_data.date_list.date | length) %}
+                                        <tr>
+                                            <td>{{content_data.date_list.date[_d]}}</td>
+                                            <td>{{content_data.time_list.time[_d]}}</td>
+                                            <td>{{content_data.count_list.count[_d].0}}</td>
+                                            <td>{{content_data.count_list.count[_d].1}}</td>
+                                            <td>{{content_data.count_list.count[_d].2}}</td>
+                                            <td>{{content_data.count_list.count[_d].3}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        &middot;
+                        <a href="#">Terms &amp; Conditions</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+{% endblock %}
