@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">날짜별 주행 정보</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">[2021-05-00] 주행 정보</li>
+                </ol>
+                <form method = "POST"> 
+                    <input type="date" id="start" name="calendar" min="2021-01-01" max="2021-12-31">
+                    <input type="submit" value="submit">
+                </form>
+                <br>
+
+                
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-area mr-1"></i>
+                                        주행 영상
+                                    </div>
+                                    <div class="card-body">
+                                    <video src="https://test-boto3-video.s3.amazonaws.com/video/cat.mp4" controls width="100%">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-bar mr-1"></i>
+                                        내 정보
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                {{ pagination.info }}
+                                                {{ pagination.links }}
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>User No.</th>
+                                                    </tr>
+                                                </thead>
+        
+                                                <tbody>
+                                                    {% for user in users %}
+                                                        <tr>
+                                                            <td>{{ loop.index + pagination.skip }}</td>
+                                                            <td>{{ user.Number }}</td>
+                                                            <td>{{ user.driving_date }}</td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                            {{ pagination.links }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-chart-area mr-1"></i>
+                                            곡선 그래프
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="myAreaChart" width="100%" height="40"></canvas>
+
+                                            <script
+                                                src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+                                            <script>
+                                                Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",' +
+                                                        'Arial,sans-serif';
+                                                Chart.defaults.global.defaultFontColor = '#292b2c';
+
+                                                // Area Chart Example
+                                                var ctx = document.getElementById("myAreaChart");
+                                                var myLineChart = new Chart(ctx, {
+                                                    type: 'line',
+                                                    data: {
+                                                        labels: [
+                                                            "Mar 1",
+                                                            "Mar 2",
+                                                            "Mar 3",
+                                                            "Mar 4",
+                                                            "Mar 5",
+                                                            "Mar 6",
+                                                            "Mar 7",
+                                                            "Mar 8",
+                                                            "Mar 9",
+                                                            "Mar 10",
+                                                            "Mar 11",
+                                                            "Mar 12",
+                                                            "Mar 13"
+                                                        ],
+                                                        datasets: [
+                                                            {
+                                                                label: "Sessions",
+                                                                lineTension: 0.3,
+                                                                backgroundColor: "rgba(2,117,216,0.2)",
+                                                                borderColor: "rgba(2,117,216,1)",
+                                                                pointRadius: 5,
+                                                                pointBackgroundColor: "rgba(2,117,216,1)",
+                                                                pointBorderColor: "rgba(255,255,255,0.8)",
+                                                                pointHoverRadius: 5,
+                                                                pointHoverBackgroundColor: "rgba(2,117,216,1)",
+                                                                pointHitRadius: 50,
+                                                                pointBorderWidth: 2,
+                                                                data: [
+                                                                    10000,
+                                                                    30162,
+                                                                    26263,
+                                                                    18394,
+                                                                    18287,
+                                                                    28682,
+                                                                    31274,
+                                                                    33259,
+                                                                    25849,
+                                                                    24159,
+                                                                    32651,
+                                                                    31984,
+                                                                    38451
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    options: {
+                                                        scales: {
+                                                            xAxes: [
+                                                                {
+                                                                    time: {
+                                                                        unit: 'date'
+                                                                    },
+                                                                    gridLines: {
+                                                                        display: false
+                                                                    },
+                                                                    ticks: {
+                                                                        maxTicksLimit: 7
+                                                                    }
+                                                                }
+                                                            ],
+                                                            yAxes: [
+                                                                {
+                                                                    ticks: {
+                                                                        min: 0,
+                                                                        max: 40000,
+                                                                        maxTicksLimit: 5
+                                                                    },
+                                                                    gridLines: {
+                                                                        color: "rgba(0, 0, 0, .125)"
+                                                                    }
+                                                                }
+                                                            ]
+                                                        },
+                                                        legend: {
+                                                            display: false
+                                                        }
+                                                    }
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-6">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-chart-bar mr-1"></i>
+                                            막대 그래프
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="myBarChart" width="100%" height="40"></canvas>
+                                            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+                                            <script>
+                                                // Set new default font family and font color to mimic Bootstrap's default
+                                                // styling
+                                                Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",' +
+                                                        'Arial,sans-serif';
+                                                Chart.defaults.global.defaultFontColor = '#292b2c';
+
+                                                // Bar Chart Example
+                                                var ctx = document.getElementById("myBarChart");
+                                                var myLineChart = new Chart(ctx, {
+                                                    type: 'bar',
+                                                    data: {
+                                                        labels: [
+                                                            "January",
+                                                            "February",
+                                                            "March",
+                                                            "April",
+                                                            "May",
+                                                            "June"
+                                                        ],
+                                                        datasets: [
+                                                            {
+                                                                label: "Revenue",
+                                                                backgroundColor: "rgba(2,117,216,1)",
+                                                                borderColor: "rgba(2,117,216,1)",
+                                                                data: [
+                                                                    4215,
+                                                                    5312,
+                                                                    6251,
+                                                                    7841,
+                                                                    9821,
+                                                                    14984
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    options: {
+                                                        scales: {
+                                                            xAxes: [
+                                                                {
+                                                                    time: {
+                                                                        unit: 'month'
+                                                                    },
+                                                                    gridLines: {
+                                                                        display: false
+                                                                    },
+                                                                    ticks: {
+                                                                        maxTicksLimit: 6
+                                                                    }
+                                                                }
+                                                            ],
+                                                            yAxes: [
+                                                                {
+                                                                    ticks: {
+                                                                        min: 0,
+                                                                        max: 15000,
+                                                                        maxTicksLimit: 5
+                                                                    },
+                                                                    gridLines: {
+                                                                        display: true
+                                                                    }
+                                                                }
+                                                            ]
+                                                        },
+                                                        legend: {
+                                                            display: false
+                                                        }
+                                                    }
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+
+
+
+                        </div>
+                    </main>
+
+                    <footer class="py-4 bg-light mt-auto">
+                        <div class="container-fluid">
+                            <div class="d-flex align-items-center justify-content-between small">
+                                <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                                <div>
+                                    <a href="#">Privacy Policy</a>
+                                    &middot;
+                                    <a href="#">Terms &amp; Conditions</a>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+
+            {% endblock %}
