@@ -2,7 +2,7 @@
 .vscode/
 .exe/
 desktop.ini/
-
+config.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
