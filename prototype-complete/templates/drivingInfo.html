@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4"> 날짜별 주행 정보 </h1>
+                
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>날짜</th>
+                            <th>주행 시간</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in content_data.day_list %}
+                            {% for day in content_data.driving_list[loop.index0] %}
+                            <tr>
+                                <td>{{data}}</td>
+                                <td><a href="/drivingInfo_detail/{{data}}/{{ day.start }}"> {{ day.start }} - {{day.end}}</a></td>
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                    <div>
+                        <a href="#">Privacy Policy</a>
+                        &middot;
+                        <a href="#">Terms &amp; Conditions</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+{% endblock %}
