@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">나의 운전 점수</h1>
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">My driving score</li>
+                </ol>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-car"></i>
+                                나의 운전 점수
+                            </div>
+                            <div class="card-body" transform:scale(2);="transform:scale(2);">
+
+                                <head>
+                                    <meta charset="utf-8">
+                                    <title>CSS</title>
+                                    <style>
+                                        .jb-wrap {
+                                            width: 40%;
+                                            margin: 10px auto;
+                                            position: relative;
+                                        }
+                                        .jb-wrap img {
+                                            width: 100%;
+                                            vertical-align: middle;
+                                        }
+                                        .jb-text {
+                                            text-align: center;
+                                            position: absolute;
+                                            top: 50%;
+                                            left: 50%;
+                                            transform: translate( -50%, -50% );
+                                            font-size: 500%;
+                                        }
+                                    </style>
+                                </head>
+                                <body>
+                                    <div class="jb-wrap">
+                                        <div class="jb-image"><img src="https://t4.ftcdn.net/jpg/02/56/07/95/240_F_256079575_emK74STkggLgbEZ4sbMyJYU5zeBzSKTx.jpg" alt=""></div>
+                                        <div class="jb-text">
+                                            <p>{{score[0]}} 점</p>
+                                        </div>
+                                    </div>
+                                </body>
+                               
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="fas fa-table mr-1"></i>
+                                총 운행 기록
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>날짜</th>
+                                        <th>총 주행 시간</th>
+                                        <th>총 정상 주행 횟수</th>
+                                        <th>총 졸음 운전 횟수</th>
+                                        <th>총 조수석 본 횟수</th>
+                                        <th>총 휴대폰 본 횟수</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for _d in range(0, content_data.date_list.date | length) %}
+                                        <tr>
+                                            <td>{{content_data.date_list.date[_d]}}</td>
+                                            <td>{{content_data.time_list.time[_d]}}</td>
+                                            <td>{{content_data.count_list.count[_d].0}} 회</td>
+                                            <td>{{content_data.count_list.count[_d].1}} 회</td>
+                                            <td>{{content_data.count_list.count[_d].2}} 회</td>
+                                            <td>{{content_data.count_list.count[_d].3}} 회</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="card-footer">
+                                <i class="fa fa-car"></i>
+                                운행 세부 정보
+                            </div>
+                        
+                                <div class="row">
+                                    <div class="col-xl-3 col-md-6">
+                                        <div class="card bg-primary text-white mb-4">
+                                            <div class="card-body">날짜별 주행 정보</div>
+                                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                                <a class="small text-white stretched-link" href="/drivingInfo">View Details</a>
+                                                <div class="small text-white">
+                                                    <i class="fas fa-angle-right"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6">
+                                        <div class="card bg-success text-white mb-4">
+                                            <div class="card-body">총 주행 정보</div>
+                                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                                <a class="small text-white stretched-link" href="/main">View Details</a>
+                                                <div class="small text-white">
+                                                    <i class="fas fa-angle-right"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6">
+                                        <div class="card bg-danger text-white mb-4">
+                                            <div class="card-body">프로필</div>
+                                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                                <a class="small text-white stretched-link" href="/profile">View Details</a>
+                                                <div class="small text-white">
+                                                    <i class="fas fa-angle-right"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fa fa-plus"></i>
+                        자동차 보험 추천
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                                    <div class="col-xl-3 col-md-6">
+                                        <head>
+                                            <meta charset="utf-8">
+                                            <title>CSS</title>
+                                            <style>
+                                                .jb-wrap {
+                                                    width: 40%;
+                                                    margin: 10px auto;
+                                                    position: relative;
+                                                }
+                                                .jb-wrap img {
+                                                    width: 100%;
+                                                    vertical-align: middle;
+                                                }
+                                                .jb-text {
+                                                    text-align: center;
+                                                    position: absolute;
+                                                    top: 50%;
+                                                    left: 50%;
+                                                    transform: translate( -50%, -50% );
+                                                    font-size: 500%;
+                                                }
+                                            </style>
+                                        </head>
+                                        <body>
+                                            <div class="jb-wrap">
+                                                <div class="jb-image"><a href="https://direct.samsungfire.com/" target=_blank><img src="https://yt3.ggpht.com/ytc/AAUvwnhgv1-PufojF-Vmuzlg3K0o5Yz2QOHz4AoZHI2GVg=s900-c-k-c0x00ffffff-no-rj" alt=""></div>                                                
+                                                <p align=middle> 삼성화재 ></p>                                                
+                                            </div>
+                                        </body>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6">
+                                        <head>
+                                            <meta charset="utf-8">
+                                            <title>CSS</title>
+                                            <style>
+                                                .jb-wrap {
+                                                    width: 40%;
+                                                    margin: 10px auto;
+                                                    position: relative;
+                                                }
+                                                .jb-wrap img {
+                                                    width: 100%;
+                                                    vertical-align: middle;
+                                                }
+                                                .jb-text {
+                                                    text-align: center;
+                                                    position: absolute;
+                                                    top: 50%;
+                                                    left: 50%;
+                                                    transform: translate( -50%, -50% );
+                                                    font-size: 500%;
+                                                }
+                                            </style>
+                                        </head>
+                                        <body>
+                                            <div class="jb-wrap">
+                                                <div class="jb-image"><a href="https://www.directdb.co.kr/evt/common/201904_paymentEvt.do?src=naver_br&kw=03D67D&from=naverbs&keyword=IFC3136&utm_source=naverbs_pc&utm_medium=cpc&utm_campaign=nhnad&utm_content=pcgroup_new_brand_1229_thumb_1" target=_blank><img src="data:image/jpeg;base64,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" alt=""></div>                                                
+                                                <p align=middle> DB손해보험 ></p>                                                
+                                            </div>
+                                        </body>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6">
+                                        <head>
+                                            <meta charset="utf-8">
+                                            <title>CSS</title>
+                                            <style>
+                                                .jb-wrap {
+                                                    width: 40%;
+                                                    margin: 10px auto;
+                                                    position: relative;
+                                                }
+                                                .jb-wrap img {
+                                                    width: 100%;
+                                                    vertical-align: middle;
+                                                }
+                                                .jb-text {
+                                                    text-align: center;
+                                                    position: absolute;
+                                                    top: 50%;
+                                                    left: 50%;
+                                                    transform: translate( -50%, -50% );
+                                                    font-size: 500%;
+                                                }
+                                            </style>
+                                        </head>
+                                        <body>
+                                            <div class="jb-wrap">
+                                                <div class="jb-image"><a href="https://direct.kbinsure.co.kr/home/#/WS/IS/COMN_4012M/?pid=1090038&code=0002&utm_source=naver&utm_medium=brand&utm_term=%EC%8B%A0%EA%B7%9C%20%EB%B8%8C%EB%9E%9C%EB%93%9C%EA%B2%80%EC%83%89_%EC%8D%B8%EB%84%A4%EC%9D%BC1_%EB%A9%94%EC%9D%B8" target=_blank><img src="https://lh3.googleusercontent.com/proxy/a1cRvJvlNgmKbOHt0dqeYbazWQXvwT9-INvfIdQk9NE503Se8QykpHs3faoWtcCWqppnJmwuj2PkXINvB2iguIR-7ZLJIpBCHXve5ARqA0XIT8C-lvtwlUBrxNZ917BNg9y8p61btSwsZvAn790_TH1MzIR72jkQIuLIgjvQYQmvj8fWgieZ6JxkV9nOE-Wn" alt=""></div>                                                
+                                                <p align=middle> KB손해보험 ></p>                                                
+                                            </div>
+                                        </body>
+                                    </div>
+                                    <div class="col-xl-3 col-md-6">
+                                        <head>
+                                            <meta charset="utf-8">
+                                            <title>CSS</title>
+                                            <style>
+                                                .jb-wrap {
+                                                    width: 40%;
+                                                    margin: 10px auto;
+                                                    position: relative;
+                                                }
+                                                .jb-wrap img {
+                                                    width: 100%;
+                                                    vertical-align: middle;
+                                                }
+                                                .jb-text {
+                                                    text-align: center;
+                                                    position: absolute;
+                                                    top: 50%;
+                                                    left: 50%;
+                                                    transform: translate( -50%, -50% );
+                                                    font-size: 500%;
+                                                }
+                                            </style>
+                                        </head>
+                                        <body>
+                                            <div class="jb-wrap">
+                                                <div class="jb-image"><a href="https://direct.hi.co.kr/service.do?m=3293e8e708&src=naver_br&kw=04B4CF&HDMS1=cpc&HDMS2=naver&HDMS3=brandsearch&HDMS4=%EC%9E%90%EB%8F%99%EC%B0%A8_%EB%A9%94%EC%9D%B8_%EC%9D%B4%EB%B2%A4%ED%8A%B8_%ED%99%88%EB%A7%81%ED%81%AC&utm_source=naver&utm_medium=brandsearch&utm_campaign=%EC%9E%90%EB%8F%99%EC%B0%A8%EB%B3%B4%ED%97%98&utm_term=%EC%9E%90%EB%8F%99%EC%B0%A8_%EB%A9%94%EC%9D%B8_%EC%9D%B4%EB%B2%A4%ED%8A%B8_%ED%99%88%EB%A7%81%ED%81%AC" target=_blank><img src="data:image/png;base64,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" alt=""></div>                                                
+                                                <p align=middle> 현대해상 ></p>                                                
+                                            </div>
+                                        </body>
+                                    </div>
+                                </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            </main>
+            <footer class="py-4 bg-light mt-auto">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        <div class="text-muted">Copyright &copy; Your Website 2021</div>
+                        <div>
+                            <a href="#">Privacy Policy</a>
+                            &middot;
+                            <a href="#">Terms &amp; Conditions</a>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <script src="{{ url_for('static', filename='js/chart-pie-demo.js')}}"></script>
+    {% endblock %}
+    
