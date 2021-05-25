@@ -202,7 +202,7 @@
                             <script type="text/javascript">
                                 // Set new default font family and font color to mimic Bootstrap's default
                                 // styling
-                                var labels = {{ content_data.behavior_naming.driving|tojson }};
+                                var labels = ["정상 주행","졸음 운전","조수석","휴대폰"];
                                 var data = {{ content_data.behavior_list.behavior|tojson }};
                                
                                 
@@ -285,7 +285,7 @@
                                         <th>총 주행 시간</th>
                                         <th>총 정상 주행 횟수</th>
                                         <th>총 졸음 운전 횟수</th>
-                                        <th>총 인포테인먼트 본 횟수</th>
+                                        <th>총 조수석 본 횟수</th>
                                         <th>총 휴대폰 본 횟수</th>
                                     </tr>
                                 </thead>

@@ -42,21 +42,24 @@ app.debug = True
 
 
 def cal_totalTime(endTime, startTime):
-    et = endTime.split()[1].split(':')
-    st = startTime.split()[1].split(':')
+    #et = endTime.split()[1].split(':')  # 날짜 포함
+    #st = startTime.split()[1].split(':') # 날짜 포함
+    
+    et = endTime.split(':')
+    st = startTime.split(':')
 
     if len(et) == 2:
         tet = int(et[0])*60 + int(et[1])
         tst = int(st[0])*60 + int(st[1])
         f = tet - tst
 
-        temp = str(f//60) + ':' + str(f % 60)
+        temp = str(f//60) + '분 ' + str(f % 60) + '초'
     elif len(et) == 3:
         tet = int(et[0])*3600 + int(et[1])*60 + int(et[2])
         tst = int(st[0])*3600 + int(st[1])*60 + int(st[2])
         f = tet-tst
 
-        temp = str(f//3600)+':' + str((f % 3600)//60)+':'+str((f % 3600) % 60)
+        temp = str(f//3600)+'시간 ' + str((f % 3600)//60)+'분 '+str((f % 3600) % 60)+ '초'
 
     return temp
 
@@ -176,9 +179,6 @@ def main():
     behavior_list = {
         "behavior": [0, 0, 0, 0]
     }
-    behavior_naming = {
-        "driving": ["정상 주행", "졸음 운전", "인포테인먼트", "휴대폰"]
-    }
     maxValue = 0
     db = pymysql.connect(host='35.83.241.188', port=3306,
                          db='DRIVINGDB', user='root', passwd='team04')
@@ -240,11 +240,11 @@ def main():
     except:
         pass
     global content_data
-    content_data = {"date_list": date_list, "time_list": time_list, "count_list": count_list, "behavior_list": behavior_list, "behavior_naming": behavior_naming}
+    content_data = {"date_list": date_list, "time_list": time_list, "count_list": count_list, "behavior_list": behavior_list}
     
 
     return render_template('main.html', userinfo=session[constants.PROFILE_KEY],
-                           userinfo_pretty=json.dumps(session[constants.JWT_PAYLOAD], indent=4), content_data={"date_list": date_list, "time_list": time_list, "count_list": count_list, "behavior_list": behavior_list, "behavior_naming": behavior_naming})
+                           userinfo_pretty=json.dumps(session[constants.JWT_PAYLOAD], indent=4), content_data={"date_list": date_list, "time_list": time_list, "count_list": count_list, "behavior_list": behavior_list})
 
 
 @app.route('/profile')
@@ -293,7 +293,7 @@ def drivingInfo_detail(drivingDate,start):
 
     # driving_info 추출
     json_data =eval(result_set[0][2])
-   
+    print(json_data)
     # 총 분류 행동 횟수 추출
     count_data = []
     total_time = []
@@ -309,7 +309,6 @@ def drivingInfo_detail(drivingDate,start):
         total_time.append(time_list)
 
 
-
     return render_template('drivingInfo_detail.html',userinfo=session[constants.PROFILE_KEY],userinfo_pretty=json.dumps(session[constants.JWT_PAYLOAD], indent=4),driving_date=result_set[0][1],start_time=result_set[0][3], End_time=result_set[0][4], videoSrc=result_set[0][6],count_data=count_data[0], total_time=total_time[0],json_data=json_data)
 
 
@@ -321,8 +320,6 @@ def drivingScore():
     cursor.execute(query, (userinfo['user_id']))
     db.commit()
     score = cursor.fetchone()
-    print(score)
-    print(content_data)
 
     return render_template('drivingScore.html', userinfo=session[constants.PROFILE_KEY],
                            userinfo_pretty=json.dumps(session[constants.JWT_PAYLOAD], indent=4), score=score, content_data=content_data)
@@ -365,9 +362,6 @@ def userDetail(number):
     }
     behavior_list = {
         "behavior": [0, 0, 0, 0]
-    }
-    behavior_naming = {
-        "driving": ["정상 주행", "졸음 운전", "인포테인먼트", "휴대폰"]
     }
     maxValue = 0
     config = db_config()
