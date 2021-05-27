@@ -1,0 +1,71 @@
+version: "3.9"
+services:
+  consul:
+    image: consul:1.9.1
+    command: ["consul","agent","-dev","-ui","-datacenter","zone1","-node","host1","-config-dir","/consul/data","-client","0.0.0.0"]
+    volumes:
+      - "./consul/consul_config:/consul/data"
+    ports:
+      - 8500:8500
+      - 8600:8600
+    networks:
+      msa-network:
+        ipv4_address: 172.19.0.100
+  driving_front:
+    image: upi907/front
+    container_name: "front"
+    ports:
+      - "3000:3000"
+    networks:
+      msa-network:
+        ipv4_address: 172.19.0.6
+    depends_on:
+      - consul
+      
+  totcal_driving:
+    image: upi907/totcal_driving
+    container_name: "totcal_driving"
+    ports:
+      - "5003:5000"
+    networks:
+      msa-network:
+        ipv4_address: 172.19.0.3
+
+  driving_users:
+    image: upi907/users
+    container_name: "users"
+    ports:
+      - "5002:5000"
+    networks:
+      msa-network:
+        ipv4_address: 172.19.0.2
+
+  driving_date:
+    image: upi907/driving_date
+    container_name: "driving_date"
+    ports:
+      - "5004:5000"
+    networks:
+      msa-network:
+        ipv4_address: 172.19.0.4
+
+  driving_score:
+    image: upi907/driving_score
+    container_name: "driving_score"
+    ports:
+      - "5005:5000"
+    networks:
+      msa-network:
+        ipv4_address: 172.19.0.5
+
+networks:
+  msa-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/24
+          gateway: 172.19.0.1
+         
+            
+            
+            
