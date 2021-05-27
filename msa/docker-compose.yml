@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  driving_front:
+    image: 1yangsh/driving_front:1.0
+    container_name: "driving_front"
+    ports:
+      - "3000:3000"
+    networks:
+      - driving_nw
+  driving_info:
+    image: 1yangsh/driving_info:1.0
+    container_name: "driving_info"
+    ports:
+      - "5000:5000"
+    networks:
+      - driving_nw
+  driving_users:
+    image: 1yangsh/driving_users:1.0
+    container_name: "driving_users"
+    ports:
+      - "5003:5003"
+    networks:
+      - driving_nw
+  driving_date:
+    image: 1yangsh/driving_date:1.0
+    container_name: "driving_date"
+    ports:
+      - "5002:5002"
+    networks:
+      - driving_nw
+  driving_score:
+    image: 1yangsh/driving_score:1.0
+    container_name: "driving_score"
+    ports:
+      - "5001:5001"
+    networks:
+      - driving_nw
+networks:
+  driving_nw:
+    driver: bridge
