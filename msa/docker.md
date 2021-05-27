@@ -36,3 +36,7 @@ docker run -it --name front -p 3000:3000 --net msa-network --ip 172.19.0.6 upi90
 
 
 
+```
+docker run -it -v c:\prototype-msa/consul/consul-config:/consul/data --net msa-network --name consul --ip 172.19.0.100 -p 8500:8500 consul consul agent -dev -ui -datacenter zone1 -node host1 -config-dir /consul/data -client 0.0.0.0
+```
+
