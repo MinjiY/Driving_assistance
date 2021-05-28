@@ -48,9 +48,9 @@ services:
       msa-network:
         ipv4_address: 172.19.0.5
 
-  front:
-    image: upi907/front
-    container_name: "front"
+  front_local:
+    image: upi907/front_local
+    container_name: "front_local"
     ports:
       - "3000:3000"
     networks:
