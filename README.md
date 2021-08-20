@@ -4,11 +4,30 @@
 
 
 
-
-
 ### :gem: Developers
 
 ---
 
 - 유민지 https://github.com/youminji
 - 양승현 https://github.com/1yangsh 
+
+
+
+### 🐼 Tech Stack
+
+---
+
+- Flask Framework
+- AWS S3/RDS/ELB
+- consul
+- docker, docker-compose
+- Auth0
+
+
+
+### 🎆 Architecture
+
+---
+
+![1](./Arch.jpg)
+
