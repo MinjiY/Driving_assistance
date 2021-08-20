@@ -8,7 +8,7 @@
 
 ---
 
-- 유민지 https://github.com/youminji
+- 유민지 https://github.com/MinjiY
 - 양승현 https://github.com/1yangsh 
 
 
